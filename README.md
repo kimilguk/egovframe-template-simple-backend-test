@@ -13,7 +13,7 @@
 - 원본의 .github 폴더는 깃허브에서 workflow를 사용하는 설정이 있기 때문에 지운다.
 - 참고로, 이클립스에서 최초 커밋 후 아래 2줄은 해당 프로젝트의 이클립스 터미널에서 실행 해 준다.(다음부턴 할 필요 없다.)
 - git branch -M master
-- git remote add origin https://github.com/학생의깃허브명.git
+- git remote add origin https://github.com/학생의저장소주소.git
 
 # 표준프레임워크 심플홈페이지 BackEnd
 
