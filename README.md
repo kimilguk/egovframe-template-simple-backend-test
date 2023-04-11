@@ -1,11 +1,15 @@
 # 전자정부표준프레임워크 심플홈페이지 백엔드
-- 백엔드 소스 : https://github.com/eGovFramework/egovframe-template-simple-backend
+- 백엔드 원본소스 : https://github.com/eGovFramework/egovframe-template-simple-backend
 - 개발환경 : 표준프레임워크 4.1.0 ( https://www.egovframe.go.kr/home/sub.do?menuNo=94 )
 - 위 개발개발환경에서 설치한 기존 심플홈페이지(참조: https://kimilguk.tistory.com/782)보다 경량이다.
 - CRUD 작업용 API 컨트롤러만 제공 된다. 즉, 프런트엔드를 제어하는 페이지는 없다.
+- 장점은 백엔드와 프런트엔드 프로젝트를 분리해서 작업할 수 있다.
 ![백엔드메인](README/backend_main.jpg)
-- 위 소스는 수정하지 않고, 리액트용 프런트엔드 페이지만 수정할 예정 이다. 아래는 프런트 페이지 소스 이다.
+- 참고로, 위 백엔드 소스는 수정하지 않고, 리액트용 프런트엔드 페이지만 수정할 예정 이다. 아래는 프런트 페이지 작업소스 이다.
 - https://github.com/kimilguk/egovframe-template-simple-react.git
+
+### 2023.04.11(화)
+- 백엔드 원본 소스를 받아서 개발환경에서 실행 하고, 개인 gitignore 수정 후 깃 저장소에 올려보았다.
 
 # 표준프레임워크 심플홈페이지 BackEnd
 
