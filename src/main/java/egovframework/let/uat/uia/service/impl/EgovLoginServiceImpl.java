@@ -8,6 +8,8 @@ import egovframework.let.utl.sim.service.EgovFileScrty;
 
 import org.egovframe.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -35,6 +37,17 @@ public class EgovLoginServiceImpl extends EgovAbstractServiceImpl implements Ego
 	@Resource(name = "loginDAO")
 	private LoginDAO loginDAO;
 
+	/**
+	 * 기존 비번과 비교하여 변경된 비밀번호를 저장한다. 2023.04.15(토) 김일국 추가
+	 * @param map데이터 String: login_id, old_password, new_password
+	 * @return 성공시 1
+	 * @throws Exception
+	 */
+	@Override
+	public Integer updateAdminPassword(Map<?, ?> map) throws Exception {
+		return loginDAO.updateAdminPassword(map);
+	}
+	
 	/**
 	 * 일반 로그인을 처리한다
 	 * @param vo LoginVO

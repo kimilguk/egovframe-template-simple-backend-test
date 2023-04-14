@@ -1,5 +1,7 @@
 package egovframework.let.uat.uia.service;
 
+import java.util.Map;
+
 import egovframework.com.cmm.LoginVO;
 
 /**
@@ -21,6 +23,14 @@ import egovframework.com.cmm.LoginVO;
  */
 public interface EgovLoginService {
 
+	/**
+	 * 기존 비번과 비교하여 변경된 비밀번호를 저장한다. 2023.04.15(토) 김일국 추가
+	 * @param map데이터 String: login_id, old_password, new_password
+	 * @return 성공시 1
+	 * @throws Exception
+	 */
+	Integer updateAdminPassword(Map<?, ?> map) throws Exception;
+	
 	/**
 	 * 일반 로그인을 처리한다
 	 * @return LoginVO
