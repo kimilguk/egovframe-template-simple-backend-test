@@ -2,8 +2,6 @@ package egovframework.let.uat.uia.service.impl;
 
 import egovframework.com.cmm.LoginVO;
 
-import java.util.Map;
-
 import org.egovframe.rte.psl.dataaccess.EgovAbstractMapper;
 
 import org.springframework.stereotype.Repository;
@@ -28,16 +26,6 @@ import org.springframework.stereotype.Repository;
 @Repository("loginDAO")
 public class LoginDAO extends EgovAbstractMapper {
 
-	/**
-	 * 기존 비번과 비교하여 변경된 비밀번호를 저장한다. 2023.04.15(토) 김일국 추가
-	 * @param map데이터 String: login_id, old_password, new_password
-	 * @return 성공시 1 
-	 * @exception Exception
-	 */
-	public Integer updateAdminPassword(Map<?, ?> map) throws Exception {
-		return update("loginDAO.updateAdminPassword", map);
-	}
-	
 	/**
 	 * 일반 로그인을 처리한다
 	 * @param vo LoginVO

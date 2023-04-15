@@ -26,12 +26,6 @@
 		<result property="password" column="password"/>
 	</resultMap>
 	
-	<!-- 리액트용 변경된 비밀번호를 저장하는 쿼리 2023.04.15 김일국 추가 -->
-	<update id="updateAdminPassword" parameterType="java.util.Map">
-		UPDATE LETTNEMPLYRINFO
-			SET password = #{new_password}
-		WHERE emplyr_id = #{login_id} AND password = #{old_password}
-	</update>
 	<!-- 일반 로그인 -->
 	<select id="actionLogin" resultMap="login">
 		<!-- 일반회원 -->
