@@ -50,6 +50,25 @@ public class EgovSiteManagerApiController {
 		return resultVO;
 	}
 	/**
+	 * 리액트에서 사이트관리자에 접근하는 토큰값 위변조 방지용으로 서버에서 비교한다.
+	 * @param map데이터: String old_password, new_password
+	 * @param request - 토큰값으로 인증된 사용자를 확인하기 위한 HttpServletRequest
+	 * @return result - JWT 토큰값 비교결과 코드와 메세지
+	 * @exception Exception
+	 */
+	@PostMapping(value = "/uat/esm/jwtAuthAPI.do")
+	public ResultVO jwtAuthentication(HttpServletRequest request) throws Exception {
+		ResultVO resultVO = new ResultVO();
+		// Headers에서 Authorization 속성값에 발급한 토큰값이 정상인지 확인
+		if (!jwtVerification.isVerification(request)) {
+			resultVO = handleAuthError(resultVO); // 토큰 확인
+		}else{
+			resultVO.setResultCode(ResponseCode.SUCCESS.getCode());
+			resultVO.setResultMessage(ResponseCode.SUCCESS.getMessage());
+		}
+		return resultVO;
+	}
+	/**
 	 * 사이트관리자의 기존 비번과 비교하여 변경된 비밀번호를 저장한다.
 	 * @param map데이터: String old_password, new_password
 	 * @param request - 토큰값으로 인증된 사용자를 확인하기 위한 HttpServletRequest
