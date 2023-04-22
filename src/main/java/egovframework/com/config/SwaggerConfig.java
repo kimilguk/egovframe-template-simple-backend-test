@@ -34,9 +34,9 @@ public class SwaggerConfig {
 				.paths(PathSelectors.any())
 				.build()
 				.securityContexts(Arrays.asList(securityContext())) // 스웨그에서 컨텐츠 url 접근 시 인증처리를 위한 보안 규칙 호출
-                .securitySchemes(Arrays.asList(apiKey())); // 스웨그 화면상단에 토큰값 입력하는 창 구조 호출
+                .securitySchemes(Arrays.asList(apiKey())); // 스웨그 화면상단에 토큰값 입력하는 창 구조 호출, 여기에 배열로 추가 apiKey메서드를 입력가능
 	}
-	// accessToken 입력 화면 구조 
+	// Authorization창에 Token값 입력 화면 구조 
     private ApiKey apiKey() {
         return new ApiKey("Authorization", "Authorization", "header");
     }
@@ -50,12 +50,12 @@ public class SwaggerConfig {
                 .builder()
                 .securityReferences(defaultAuth()).forPaths(PathSelectors.any()).build();
     }
-    // 토큰 인증영역 배열을 반환하는 매서드
+    // 토큰 인증영역 배열리스트을 반환하는 매서드
     List<SecurityReference> defaultAuth() {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything"); // 인증영역 객체 생성
-        AuthorizationScope[] authorizationScopeArray = new AuthorizationScope[1]; // 토큰 배열변수 선언
-        authorizationScopeArray[0] = authorizationScope; // 토큰 배열변수에 인증영역 지정
-        return Arrays.asList(new SecurityReference("Authorization", authorizationScopeArray));
+        AuthorizationScope[] authorizationScopeArray = new AuthorizationScope[1]; // 빈 배열 인증영역 객체 생성
+        authorizationScopeArray[0] = authorizationScope; // 배열변수에 인증영역 객체 등록
+        return Arrays.asList(new SecurityReference("Authorization", authorizationScopeArray)); // 여기에 배열로 추가 SecurityReference객체를 입력가능
     }
     
 	public ApiInfo apiInfo() {
