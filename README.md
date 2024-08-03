@@ -1,3 +1,4 @@
+```
 echo "# egovframe-template-simple-backend-test" >> README.md
 git init
 git add README.md
@@ -5,6 +6,7 @@ git commit -m "first commit"
 git branch -M main
 git remote add origin https://github.com/kimilguk/egovframe-template-simple-backend-test.git
 git push -u origin main
+```
 
 # 표준프레임워크 심플홈페이지 BackEnd
 
