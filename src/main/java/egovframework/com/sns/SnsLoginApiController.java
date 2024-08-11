@@ -59,6 +59,7 @@ public class SnsLoginApiController {
 	/** JWT */
 	@Autowired
     private EgovJwtTokenUtil jwtTokenUtil;
+	public static final String HEADER_STRING = "Authorization";
 	/** SNS */
 	public static final String NAVER_CLIENT_ID = EgovProperties.getProperty("Sns.naver.clientId");
 	public static final String NAVER_CLIENT_SECRET = EgovProperties.getProperty("Sns.naver.clientSecret");
@@ -131,7 +132,6 @@ public class SnsLoginApiController {
 	    log.debug("responseBody="+ responseBody);
 	    json_string = responseBody;//토큰 값 변수에 저장
         //네이버 로그인 인증 끝
-
 	    //네이버 프로필 정보 가져오기 시작 
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    NaverTokenVO jsonToken = objectMapper.readValue(json_string, NaverTokenVO.class);
@@ -155,8 +155,9 @@ public class SnsLoginApiController {
             loginVO.setName(jsonProfile.getName());
             loginVO.setId(jsonProfile.getEmail());
             loginVO.setUniqId(jsonProfile.getEmail());
-            loginVO.setUserSe("USR");
+            loginVO.setUserSe("SNS");
             loginVO.setGroupNm("ROLE_USER");
+            loginVO.setOrgnztId(jsonProfile.getEmail());
 	        String jwtToken = jwtTokenUtil.generateToken(loginVO);
 			String username = jwtTokenUtil.getUserSeFromToken(jwtToken);
 	    	log.debug("Dec jwtToken username = "+username);
