@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import egovframework.com.cmm.EgovMessageSource;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovProperties;
 import egovframework.com.jwt.EgovJwtTokenUtil;
 import egovframework.com.sns.SnsVO.NaverProfileVO;
 import egovframework.com.sns.SnsVO.NaverResponseVO;
@@ -31,7 +32,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 /**
  * Sns 로그인을 처리하는 컨트롤러 클래스
- * @기술참조(네이버API명세) : https://developers.naver.com/docs/login/api/api.md
+ * @네이버로그인API명세 : https://developers.naver.com/docs/login/api/api.md
+ * @네이버회원프로필조회API명세 : https://developers.naver.com/docs/login/profile/profile.md
  * @version 1.0
  *
  * <pre>
@@ -57,9 +59,15 @@ public class SnsLoginApiController {
 	/** JWT */
 	@Autowired
     private EgovJwtTokenUtil jwtTokenUtil;
+	/** SNS */
+	public static final String NAVER_CLIENT_ID = EgovProperties.getProperty("Sns.naver.clientId");
+	public static final String NAVER_CLIENT_SECRET = EgovProperties.getProperty("Sns.naver.clientSecret");
+	public static final String NAVER_CALLBACK_URL = EgovProperties.getProperty("Sns.naver.callbackUrl");
 	
 	/**
-	 * 네이버용 로그인API 코드 시작
+	 * 네이버API 로그인
+	 * @param HttpServletResponse
+	 * @return void 
 	 */
 	@Operation(
 			summary = "네이버API 로그인",
@@ -67,39 +75,46 @@ public class SnsLoginApiController {
 			tags = {"SnsLoginApiController"}
 	)
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "로그인 성공"),
-			@ApiResponse(responseCode = "300", description = "로그인 실패")
+			@ApiResponse(responseCode = "200", description = "인증 성공"),
+			@ApiResponse(responseCode = "401", description = "인증 실패")
 	})
 	@GetMapping("/login/naver")
     public void getNaverAuthUrl(HttpServletResponse response) throws IOException {
-		String clientId = "osgm3bqYygYV49c1QPWl";//네이버 애플리케이션 클라이언트 아이디값";
-		String redirectURI = URLEncoder.encode("http://127.0.0.1:8080/login/naver/callback", "UTF-8");
+		String clientId = NAVER_CLIENT_ID;//네이버 애플리케이션 클라이언트 아이디값";
+		String redirectURI = URLEncoder.encode(NAVER_CALLBACK_URL, "UTF-8");
 	    SecureRandom random = new SecureRandom();
 	    String state = new BigInteger(130, random).toString();
 	    String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
 	    apiURL += "&client_id=" + clientId;
 	    apiURL += "&redirect_uri=" + redirectURI;
 	    apiURL += "&state=" + state;
+	    log.debug("apiURL="+ apiURL);
 		response.sendRedirect(apiURL);
 	}
+	
+	/**
+	 * 네이버API 로그인 콜백
+	 * @param HttpServletResponse, HttpServletRequest
+	 * @return HashMap<String, Object> 
+	 */
 	@Operation(
 			summary = "네이버API 로그인 콜백",
 			description = "네이버API 로그인 콜백처리",
 			tags = {"SnsLoginApiController"}
 	)
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "로그인 성공"),
-			@ApiResponse(responseCode = "300", description = "로그인 실패")
+			@ApiResponse(responseCode = "200", description = "인증 성공"),
+			@ApiResponse(responseCode = "401", description = "인증 실패")
 	})
 	@GetMapping("/login/naver/callback")
     public HashMap<String, Object> getNaverAuthCallback(HttpServletResponse response, HttpServletRequest request) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 		//네이버 로그인 인증 시작
-		String clientId = "osgm3bqYygYV49c1QPWl";//애플리케이션 클라이언트 아이디값";
-	    String clientSecret = "1jYoDWu4_v";//애플리케이션 클라이언트 시크릿값";
+		String clientId = NAVER_CLIENT_ID;//애플리케이션 클라이언트 아이디값";
+	    String clientSecret = NAVER_CLIENT_SECRET;//애플리케이션 클라이언트 시크릿값";
 	    String code = request.getParameter("code");
 	    String state = request.getParameter("state");
-	    String redirectURI = URLEncoder.encode("http://127.0.0.1:8080/login/naver/callback", "UTF-8");
+	    String redirectURI = URLEncoder.encode(NAVER_CALLBACK_URL, "UTF-8");
 	    String json_string=""; //3번사용
 	    String responseBody="";//2번사용
 	    Map<String, String> requestHeaders = new HashMap<>();
@@ -161,7 +176,4 @@ public class SnsLoginApiController {
         //로그인 권한 부여 끝
 		return resultMap;
 	}
-	/**
-	 * 네이버용 로그인API 코드 끝
-	 */
 }
